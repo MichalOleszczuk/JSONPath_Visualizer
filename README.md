@@ -16,7 +16,6 @@ Most useful features:
 - React Component lifecycle: https://reactjs.org/docs/react-component.html#the-component-lifecycle
 - Redux: http://redux.js.org/
 - React Router: https://reacttraining.com/react-router/web/guides/quick-start
-- Saga https://redux-saga.js.org/docs/api/
 
 ## Installation
 
@@ -27,7 +26,7 @@ Most useful features:
 OR
 
 ```
-git clone https://github.com/MichalOleszczuk/react_redux_saga_boilerplate.git
+git clone git@github.com:MichalOleszczuk/JSONPath_Visualizer.git
 ```
 
 **Installation**
