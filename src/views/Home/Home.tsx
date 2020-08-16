@@ -1,15 +1,11 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import React, { memo } from 'react';
-import { Col, Container, FormControl, Row } from 'react-bootstrap';
+import { Col, Container, FormControl, Row, Spinner } from 'react-bootstrap';
 import JSONTree from 'react-json-tree';
 import { RouteComponentProps } from 'react-router-dom';
 import { useHome } from './useHome';
 
-library.add(faPlus, faMinus);
-
 function Home(_props: RouteComponentProps) {
-  const { jsonQuery, json, onChangeQuery } = useHome();
+  const { jsonQuery, json, inProgress, error, onChangeQuery } = useHome();
 
   return (
     <Container className='h-100 text-dark pt-3 pb-3'>
@@ -20,7 +16,19 @@ function Home(_props: RouteComponentProps) {
       </Row>
       <Row>
         <Col className='pl-3 pr-3'>
-          <JSONTree data={json} />
+          {inProgress ? (
+            <div className='d-flex justify-content-center align-items-center'>
+              <Spinner animation='border' variant='light' />
+            </div>
+          ) : (
+            <>
+              {error.length > 0 ? (
+                <div className='d-flex justify-content-center align-items-center'>{error}</div>
+              ) : (
+                <JSONTree data={json} />
+              )}
+            </>
+          )}
         </Col>
       </Row>
     </Container>

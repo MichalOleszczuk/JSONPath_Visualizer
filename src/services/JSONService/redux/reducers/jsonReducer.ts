@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { IJSONActions } from '../actions/IJSONActions';
 import { JSON_ACTION_TYPES } from '../actions/jsonActionTypes';
 
@@ -16,10 +15,25 @@ export const RESOURCES_LIST_DEFAULT_STATE = {
 
 export const jsonReducer = (state: IJSONReducer = RESOURCES_LIST_DEFAULT_STATE, action: IJSONActions) => {
   switch (action.type) {
-    case JSON_ACTION_TYPES.SET_JSON: {
+    case JSON_ACTION_TYPES.SET_JSON_START: {
       return {
         ...state,
-        json: _.cloneDeep(action.payload.json),
+        inProgress: true,
+      };
+    }
+    case JSON_ACTION_TYPES.SET_JSON_SUCCESS: {
+      return {
+        ...state,
+        json: action.payload.json,
+        inProgress: false,
+        error: '',
+      };
+    }
+    case JSON_ACTION_TYPES.SET_JSON_FAILED: {
+      return {
+        ...state,
+        error: action.payload.error,
+        inProgress: false,
       };
     }
     default: {
