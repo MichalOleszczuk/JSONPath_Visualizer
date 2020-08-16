@@ -35,3 +35,10 @@ git clone git@github.com:MichalOleszczuk/JSONPath_Visualizer.git
 npm install
 npm start
 ```
+
+**Test**
+
+To test in root dir of repository is sampleJson file that you can upload.
+After upload you can query and see that given element will have flag "selected"
+
+Example query: $..book[?(@.price<10)]

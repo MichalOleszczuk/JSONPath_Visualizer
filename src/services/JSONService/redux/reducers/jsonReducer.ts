@@ -9,7 +9,7 @@ export interface IJSONReducer {
   fileLoadInProgress: boolean;
 }
 
-export const RESOURCES_LIST_DEFAULT_STATE = {
+export const JSON_REDUCER_DEFAULT_STATE = {
   error: '',
   json: {},
   defaultJson: {},
@@ -17,11 +17,11 @@ export const RESOURCES_LIST_DEFAULT_STATE = {
   fileLoadInProgress: false,
 };
 
-export const jsonReducer = (state: IJSONReducer = RESOURCES_LIST_DEFAULT_STATE, action: IJSONActions) => {
+export const jsonReducer = (state: IJSONReducer = JSON_REDUCER_DEFAULT_STATE, action: IJSONActions) => {
   switch (action.type) {
     case JSON_ACTION_TYPES.SET_DEFAULT_JSON: {
       return {
-        ...state,
+        ...JSON_REDUCER_DEFAULT_STATE,
         fileLoadInProgress: true,
       };
     }

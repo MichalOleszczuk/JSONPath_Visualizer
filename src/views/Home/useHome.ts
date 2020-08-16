@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { setJsonDefaultAction, setJsonStartAction } from '../../services/JSONService/redux/actions/jsonActions';
 import { jsonSelector } from '../../services/JSONService/redux/selectors/jsonSelectors';
@@ -18,12 +18,16 @@ export function useHome() {
 
   const onUpload = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (!!event.target.files && event.target.files[0].type === 'application/json') {
+      if (!!event.target.files && !!event.target.files.length && event.target.files[0].type === 'application/json') {
         dispatch(setJsonDefaultAction({ file: event.target.files[0] }));
       }
     },
     [dispatch],
   );
+
+  useEffect(() => {
+    setJsonQuery('');
+  }, [fileLoadInProgress]);
 
   return { jsonQuery, json, inProgress, error, fileLoadInProgress, defaultJson, onChangeQuery, onUpload };
 }
