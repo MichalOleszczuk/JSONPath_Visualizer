@@ -1,26 +1,29 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { setJsonStartAction } from '../../services/JSONService/redux/actions/jsonActions';
+import { setJsonDefaultAction, setJsonStartAction } from '../../services/JSONService/redux/actions/jsonActions';
 import { jsonSelector } from '../../services/JSONService/redux/selectors/jsonSelectors';
-import { mockJson } from './mock';
 
 export function useHome() {
   const dispatch = useDispatch();
   const [jsonQuery, setJsonQuery] = useState('');
-  const { json, inProgress, error } = useSelector(jsonSelector, shallowEqual);
+  const { json, inProgress, error, fileLoadInProgress, defaultJson } = useSelector(jsonSelector, shallowEqual);
 
   const onChangeQuery = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(setJsonStartAction({ eventValue: event.target.value, currentJson: json, previousJsonQuery: jsonQuery }));
+      dispatch(setJsonStartAction({ eventValue: event.target.value, currentJson: json, defaultJson }));
       setJsonQuery(event.target.value);
     },
-    [dispatch, json, jsonQuery],
+    [dispatch, json, defaultJson],
   );
 
-  useEffect(() => {
-    dispatch(setJsonStartAction({ eventValue: '', currentJson: mockJson, previousJsonQuery: jsonQuery }));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const onUpload = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (!!event.target.files && event.target.files[0].type === 'application/json') {
+        dispatch(setJsonDefaultAction({ file: event.target.files[0] }));
+      }
+    },
+    [dispatch],
+  );
 
-  return { jsonQuery, json, inProgress, error, onChangeQuery };
+  return { jsonQuery, json, inProgress, error, fileLoadInProgress, defaultJson, onChangeQuery, onUpload };
 }

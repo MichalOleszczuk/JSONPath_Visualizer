@@ -4,17 +4,40 @@ import { JSON_ACTION_TYPES } from '../actions/jsonActionTypes';
 export interface IJSONReducer {
   error: string;
   json: Object | Array<any>;
+  defaultJson: Object | Array<any>;
   inProgress: boolean;
+  fileLoadInProgress: boolean;
 }
 
 export const RESOURCES_LIST_DEFAULT_STATE = {
   error: '',
   json: {},
+  defaultJson: {},
   inProgress: false,
+  fileLoadInProgress: false,
 };
 
 export const jsonReducer = (state: IJSONReducer = RESOURCES_LIST_DEFAULT_STATE, action: IJSONActions) => {
   switch (action.type) {
+    case JSON_ACTION_TYPES.SET_DEFAULT_JSON: {
+      return {
+        ...state,
+        fileLoadInProgress: true,
+      };
+    }
+    case JSON_ACTION_TYPES.SET_DEFAULT_JSON_SUCCESS: {
+      return {
+        ...state,
+        defaultJson: action.payload.json,
+        fileLoadInProgress: false,
+      };
+    }
+    case JSON_ACTION_TYPES.SET_DEFAULT_JSON_FAILED: {
+      return {
+        ...state,
+        fileLoadInProgress: false,
+      };
+    }
     case JSON_ACTION_TYPES.SET_JSON_START: {
       return {
         ...state,
